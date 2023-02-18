@@ -163,7 +163,7 @@ def userList():
     mycursor.execute("select * from info_user")
     data = mycursor.fetchall()
  
-    return render_template('listprs.html', data=data)
+    return render_template('listprs.html', list_user=data)
 
 @app.route('/addprsn')
 def addprsn():
@@ -188,6 +188,14 @@ def addprsn_submit():
  
     # return redirect(url_for('home'))
     return redirect(url_for('vfdataset_page', prs=id))
+
+@app.route('/delete/<int:id>', methods=['GET'])
+def delete_person(id):
+    mycursor.execute('''delete from info_user where id =%s ''',(id,))
+    mydb.commit()
+
+    return redirect(url_for('userList'))
+
  
 @app.route('/vfdataset_page/<prs>')
 def vfdataset_page(prs):
